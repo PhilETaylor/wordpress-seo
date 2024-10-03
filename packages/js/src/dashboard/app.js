@@ -2,11 +2,9 @@
 
 import { Transition } from "@headlessui/react";
 import { AdjustmentsIcon, BellIcon } from "@heroicons/react/outline";
-import { useDispatch } from "@wordpress/data";
-import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { useEffect, useMemo } from "@wordpress/element";
-import { select } from "@wordpress/data";
+import { useCallback, useEffect, useMemo } from "@wordpress/element";
+import { select, useDispatch } from "@wordpress/data";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
 import PropTypes from "prop-types";
@@ -14,7 +12,7 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { useSelectDashboard } from "./hooks";
 import { FirstTimeConfiguration, AlertCenter } from "./routes";
-import { getToastErrorMessage} from "./helpers";
+import { getToastErrorMessage } from "./helpers";
 import { STORE_NAME } from "./constants";
 import { getMigratingNoticeInfo, deleteMigratingNotices } from "../helpers/migrateNotices";
 import Notice from "./components/notice";
