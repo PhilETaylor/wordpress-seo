@@ -76,18 +76,35 @@ const App = () => {
 	}, [ notices ] );
 
 	const { pathname } = useLocation();
-	const alertType = useSelectDashboard( "selectError", [], [] );
-	const { setError } = useDispatch( STORE_NAME );
+	const alertToggleError = useSelectDashboard( "selectAlertToggleError", [], [] );
+	const { setAlertToggleError } = useDispatch( STORE_NAME );
 
 	const handleDismiss = useCallback( () => {
-		setError( null );
-	}, [ setError ] );
+		setAlertToggleError( null );
+	}, [ setAlertToggleError ] );
 
 	const linkParams = select( STORE_NAME ).selectLinkParams();
 	const webinarIntroSettingsUrl = addQueryArgs( "https://yoa.st/webinar-intro-settings", linkParams );
 
 	return (
 		<>
+			<Notifications
+				className="yst-mx-[calc(50%-50vw)] lg:yst-left-44"
+				position="bottom-left"
+			>
+				{ alertToggleError && <Notifications.Notification
+					id="toggle-alert-error"
+					title={ __( "Something went wrong", "wordpress-seo" ) }
+					variant="error"
+					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
+					size="large"
+					autoDismiss={ 4000 }
+					onDismiss={ handleDismiss }
+				>
+					{ getToastErrorMessage( alertToggleError.type ) }
+				</Notifications.Notification>
+				}
+			</Notifications>
 			<SidebarNavigation activePath={ pathname }>
 				<SidebarNavigation.Mobile
 					openButtonId="button-open-dashboard-navigation-mobile"
@@ -145,23 +162,6 @@ const App = () => {
 					</div>
 				</div>
 			</SidebarNavigation>
-			<Notifications
-				className="yst-mx-[calc(50%-50vw)] yst-transition-all lg:yst-left-44"
-				position="bottom-left"
-			>
-				{ alertType && <Notifications.Notification
-					id="toggle-alert-error"
-					title={ __( "Something went wrong", "wordpress-seo" ) }
-					variant="error"
-					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
-					size="large"
-					autoDismiss={ 4000 }
-					onDismiss={ handleDismiss }
-				>
-					{ getToastErrorMessage( alertType ) }
-				</Notifications.Notification>
-				}
-			</Notifications>
 		</>
 	);
 };
